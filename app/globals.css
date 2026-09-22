@@ -39,6 +39,10 @@
   --input: #e2e7ef;
   --ring: #8bb8f6;
   --radius: 0.75rem;
+  --font-ui: var(--font-inter), Arial, Helvetica, sans-serif;
+  --text-body: 13px;
+  --text-label: 11px;
+  --text-data: 12px;
 }
 
 @layer base {
@@ -79,8 +83,13 @@ nav { display: grid; gap: 5px; }.nav-item { border: 0; background: transparent; 
   --ring: #80b9ae;
   --radius: 0.7rem;
 }
-body { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-.pos-app { background: #f3f1eb; color: #1d2a2b; }
+body { font-family: var(--font-inter), Arial, Helvetica, sans-serif; font-size: var(--text-body); font-weight: 400; }
+.pos-app { background: #f3f1eb; color: #1d2a2b; font-family: var(--font-ui); }
+.page-header h1, .section-heading h2, .cart-heading h2, .dialog h2, .empty-section h2 { font-weight: 700; }
+.eyebrow, .field-label, .status, .shortcut-hint, .results-meta, .product-code { font-weight: 600; }
+.product-name, .line-main strong, .line-bottom > strong, .summary-row strong, .total-row strong { font-weight: 600; }
+.product-price, .cart-total, .dialog-total strong { font-variant-numeric: tabular-nums; font-weight: 700; }
+.product-card, .cart-panel, .dialog, .mobile-bottom-nav, .mobile-menu-sheet { letter-spacing: -0.01em; }
 .sidebar { width: 232px; flex-basis: 232px; background: #203536; border-right: 0; padding: 24px 15px 18px; color: #f5f1e8; }
 .brand { padding: 0 10px 38px; }
 .brand-mark { width: 34px; height: 34px; border-radius: 8px; background: #d9a24a; color: #203536; font-family: Georgia, serif; font-size: 20px; }
