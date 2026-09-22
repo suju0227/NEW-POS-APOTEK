@@ -63,3 +63,44 @@ nav { display: grid; gap: 5px; }.nav-item { border: 0; background: transparent; 
 @media (max-width: 980px) { .sidebar { width: 190px; flex-basis: 190px; }.checkout-layout { grid-template-columns: minmax(0, 1fr) 340px; }.catalog-panel { padding: 20px 18px; }.cart-heading, .cart-lines, .cart-footer { padding-left: 18px; padding-right: 18px; }.cart-heading { padding-top: 17px; padding-bottom: 12px; }.cart-lines { min-height: 90px; }.cart-empty { height: 115px; }.cart-footer { padding-top: 11px; padding-bottom: 10px; }.summary-row { margin-bottom: 6px; }.total-row { margin-top: 8px; padding-top: 8px; }.payment-methods { margin-top: 9px; }.pay-button { margin-top: 8px; }.secure-note { margin-top: 6px; } }
 @media (max-width: 780px) { .sidebar { position: fixed; z-index: 10; inset: 0 auto 0 0; width: 218px; transform: translateX(-105%); transition: transform .2s; box-shadow: 8px 0 30px #17203322; }.sidebar-open { transform: translateX(0); }.sidebar-close, .menu-trigger { display: inline-grid; }.page-header { padding: 0 16px; }.header-actions .branch-chip { display: none; }.checkout-layout { grid-template-columns: 1fr; }.cart-panel { border-left: 0; border-top: 1px solid #e5eaf1; }.cart-lines { max-height: 320px; }.catalog-panel { padding: 22px 16px; }.product-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .product-grid { grid-template-columns: 1fr; }.page-header { height: 72px; }.page-header h1 { font-size: 19px; }.shortcut-hint { display: none; }.dialog-actions { grid-template-columns: 1fr; }.payment-methods button { min-height: 48px; } }
+
+/* Risyah POS visual direction: a warm pharmacy counter, not a generic SaaS dashboard. */
+:root {
+  --background: #f3f1eb;
+  --foreground: #1d2a2b;
+  --card: #fffdf8;
+  --card-foreground: #1d2a2b;
+  --primary: #16746b;
+  --primary-foreground: #ffffff;
+  --muted: #e8ebe5;
+  --muted-foreground: #667370;
+  --border: #d9dfd9;
+  --input: #d3dbd6;
+  --ring: #80b9ae;
+  --radius: 0.7rem;
+}
+body { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.pos-app { background: #f3f1eb; color: #1d2a2b; }
+.sidebar { width: 232px; flex-basis: 232px; background: #203536; border-right: 0; padding: 24px 15px 18px; color: #f5f1e8; }
+.brand { padding: 0 10px 38px; }
+.brand-mark { width: 34px; height: 34px; border-radius: 8px; background: #d9a24a; color: #203536; font-family: Georgia, serif; font-size: 20px; }
+.brand strong { color: #fffaf0; font-size: 16px; }.brand span { color: #a9bbb5; }
+.nav-item { color: #aec0ba; border-radius: 6px; min-height: 44px; }.nav-item:hover { background: #2b4747; color: #fffaf0; }.nav-item-active { background: #d9a24a; color: #203536; }.nav-dot { background: #203536; }
+.shift-card { border: 1px solid #3c5552; background: #294342; }.shift-card span { color: #adc0b9; }.shift-card strong { color: #fffaf0; }.shift-icon { background: #d9a24a; color: #203536; }
+.profile-button { color: #f5f1e8; }.profile-button strong { color: #fffaf0; }.profile-button small { color: #a9bbb5; }.avatar { background: #d9a24a; color: #203536; }
+.page-header { height: 92px; background: #fffdf8; border-bottom: 1px solid #d9dfd9; padding: 0 34px; }.page-header h1, .section-heading h2, .cart-heading h2 { color: #1d2a2b; letter-spacing: -0.035em; }.page-header h1 { font-size: 24px; }.eyebrow { color: #71817b; letter-spacing: .07em; }
+.branch-chip { color: #60706c; }.online-dot { background: #16746b; }.icon-button { color: #667370; }.icon-button:hover { background: #e8ebe5; }
+.checkout-layout { grid-template-columns: minmax(0, 1fr) 405px; }.catalog-panel { padding: 34px 34px 42px; }.cart-panel { background: #fffdf8; border-left: 1px solid #d9dfd9; }
+.search-wrap { height: 52px; border-color: #cbd6d0; border-radius: 7px; box-shadow: 0 8px 22px #3145420d; }.search-wrap:focus-within { border-color: #16746b; box-shadow: 0 0 0 3px #16746b1a; }.search-wrap input { color: #1d2a2b; font-size: 13px; }.search-wrap input::placeholder { color: #87938e; }
+.category-row { border-bottom: 1px solid #d9dfd9; }.category-row button { border-radius: 4px; color: #6c7975; }.category-row button:hover, .category-row .category-active { background: #dcece7; color: #14665e; }
+.results-meta { color: #6c7975; }.results-meta button { color: #4e625d; }
+.product-grid { gap: 12px; }.product-card { background: #fffdf8; border-color: #d9dfd9; border-radius: 7px; min-height: 128px; padding: 15px 16px; }.product-card:hover:not(:disabled) { border-color: #16746b; box-shadow: 0 8px 20px #31454212; transform: translateY(-1px); }.product-code { color: #889590; }.product-generic { color: #687873; }.product-card-bottom b { color: #14665e; }
+.status { border-radius: 4px; }.status-available { color: #16746b; background: #dcece7; }.status-low-stock { color: #9a681e; background: #f8eacb; }
+.cart-heading { padding: 34px 26px 20px; }.cart-lines { padding: 0 26px; }.cart-empty-icon { border-radius: 9px; background: #e8ebe5; color: #16746b; }.cart-empty strong { color: #1d2a2b; }.cart-line { border-bottom-color: #d9dfd9; }.line-main strong, .line-bottom > strong { color: #1d2a2b; }.line-main span, .batch-details { color: #71817b; }
+.quantity-control { border-color: #cbd6d0; border-radius: 4px; }.quantity-control button { background: #eef1ed; color: #16746b; }.pay-button, .button-primary { background: #16746b; color: #fff; border-radius: 5px; }.pay-button:hover, .button-primary:hover { background: #105c55; }.button-secondary { background: #e8ebe5; color: #314542; border-radius: 5px; }
+.dialog-backdrop { background: #203536a8; backdrop-filter: blur(2px); }.dialog { background: #fffdf8; border-radius: 10px; }.dialog-total { background: #e8ebe5; }.dialog-total strong { color: #14665e; }.cash-input:focus { border-color: #16746b; outline: 3px solid #16746b22; }.qris-warning { background: #f8eacb; border-color: #ead39b; color: #75501c; }.success-mark { background: #dcece7; color: #16746b; }
+.empty-section { background: #fffdf8; border: 1px solid #d9dfd9; border-radius: 10px; margin: 34px; padding: 56px 24px; }.empty-section h2 { color: #1d2a2b; }.empty-section p { color: #667370; }
+@media (max-width: 980px) { .sidebar { width: 200px; flex-basis: 200px; }.checkout-layout { grid-template-columns: minmax(0, 1fr) 360px; }.catalog-panel { padding: 24px 20px; }.cart-heading, .cart-lines, .cart-footer { padding-left: 20px; padding-right: 20px; } }
+@media (max-width: 780px) { .sidebar { width: 232px; }.sidebar .sidebar-close { display: inline-grid; }.page-header { padding: 0 18px; }.catalog-panel { padding: 24px 16px; }.cart-panel { border-top-color: #d9dfd9; }.empty-section { margin: 20px 16px; } }
+@media (max-width: 480px) { .product-card { min-height: 116px; }.page-header h1 { font-size: 20px; } }
+*:focus-visible { outline: 3px solid #d9a24a; outline-offset: 2px; }
