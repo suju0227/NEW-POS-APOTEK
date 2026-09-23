@@ -83,6 +83,14 @@ nav { display: grid; gap: 5px; }.nav-item { border: 0; background: transparent; 
   --ring: #80b9ae;
   --radius: 0.7rem;
 }
+.auth-page { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: var(--background); color: var(--foreground); }
+.auth-card { width: min(100%, 380px); display: grid; gap: 14px; padding: 30px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 18px 45px #1d2a2b12; }
+.auth-card h1 { margin: 0; font-size: 27px; letter-spacing: -.04em; }
+.auth-card p { margin: 0 0 8px; color: var(--muted-foreground); font-size: 13px; line-height: 1.5; }
+.auth-card label { display: grid; gap: 7px; color: var(--foreground); font-size: 12px; font-weight: 600; }
+.auth-card input { min-height: 44px; padding: 0 12px; border: 1px solid var(--input); border-radius: 7px; background: var(--card); color: var(--foreground); }
+.auth-card .button-primary { min-height: 44px; border: 0; border-radius: 7px; font-weight: 700; }
+.auth-error { color: #a33d3d !important; background: #fceded; padding: 10px; border-radius: 6px; }
 body { font-family: var(--font-inter), Arial, Helvetica, sans-serif; font-size: var(--text-body); font-weight: 400; }
 .pos-app { background: #f3f1eb; color: #1d2a2b; font-family: var(--font-ui); }
 .page-header h1, .section-heading h2, .cart-heading h2, .dialog h2, .empty-section h2 { font-weight: 700; }
