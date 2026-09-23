@@ -74,6 +74,7 @@ export default function PosWorkspace() {
   const [products, setProducts] = useState<Product[]>([])
   const [loadError, setLoadError] = useState(false)
   const [checkoutError, setCheckoutError] = useState('')
+  const [completedSaleId, setCompletedSaleId] = useState('')
 
   useEffect(() => {
     fetch('/api/products').then((response) => { if (!response.ok) throw new Error('Products unavailable'); return response.json() }).then((rows: Product[]) => setProducts(rows)).catch(() => setLoadError(true))
@@ -101,7 +102,8 @@ export default function PosWorkspace() {
     setProcessing(true)
     setCheckoutError('')
     try {
-      await completeSale({ paymentMethod, lines: cart.map((line) => ({ productId: line.product.id, quantity: line.quantity })) })
+      const result = await completeSale({ paymentMethod, lines: cart.map((line) => ({ productId: line.product.id, quantity: line.quantity })) })
+      setCompletedSaleId(result.saleId)
       setProcessing(false)
       setDialog('success')
     } catch {
@@ -109,7 +111,7 @@ export default function PosWorkspace() {
       setCheckoutError('Transaksi gagal disimpan. Periksa stok lalu coba lagi.')
     }
   }
-  const newTransaction = () => { setCart([]); setQuery(''); setDialog(null) }
+  const newTransaction = () => { setCart([]); setQuery(''); setCompletedSaleId(''); setCheckoutError(''); setDialog(null) }
 
   const selectSection = (label: string) => { setActiveSection(label); setNavOpen(false); setMenuSheetOpen(false); setSheetOffset(0) }
   const closeNavigation = () => setNavOpen(false)
@@ -127,6 +129,6 @@ export default function PosWorkspace() {
     </div>
     <nav className="mobile-bottom-nav" aria-label="Navigasi utama mobile"><button type="button" className={activeSection === 'Beranda' ? 'mobile-nav-active' : ''} onClick={() => selectSection('Beranda')}><Home size={19} /><span>Beranda</span></button><button type="button" className={activeSection === 'Produk' ? 'mobile-nav-active' : ''} onClick={() => selectSection('Produk')}><Package size={19} /><span>Produk</span></button><button type="button" className={activeSection === 'Kasir' ? 'mobile-nav-active mobile-nav-primary' : 'mobile-nav-primary'} onClick={() => selectSection('Kasir')}><ShoppingCart size={19} /><span>Kasir</span></button><button type="button" className={activeSection === 'Riwayat' ? 'mobile-nav-active' : ''} onClick={() => selectSection('Riwayat')}><History size={19} /><span>Riwayat</span></button><button type="button" className={menuSheetOpen ? 'mobile-nav-active' : ''} onClick={() => setMenuSheetOpen(true)}><Menu size={19} /><span>Menu</span></button></nav>
     {menuSheetOpen && <><button type="button" className="sheet-scrim" aria-label="Tutup menu" onClick={closeMenuSheet} /><section className="mobile-menu-sheet" style={{ transform: `translateY(${sheetOffset}px)` }} onPointerDown={(event) => { setDragStart(event.clientY); event.currentTarget.setPointerCapture(event.pointerId) }} onPointerMove={handleSheetPointerMove} onPointerUp={handleSheetPointerUp} aria-label="Semua menu"><div className="sheet-handle" /><div className="sheet-heading"><div><span className="eyebrow">Navigasi</span><h2>Semua menu</h2></div><button type="button" className="icon-button" onClick={closeMenuSheet} aria-label="Tutup menu"><X size={19} /></button></div><div className="sheet-menu-grid">{menuItems.map(({ label, icon: Icon }) => <button type="button" key={label} className={activeSection === label ? 'sheet-menu-active' : ''} onClick={() => selectSection(label)}><Icon size={19} /><span>{label}</span></button>)}</div><button type="button" className="sheet-menu-profile" onClick={() => setMenuSheetOpen(false)}><span className="avatar">AS</span><span><strong>Andi Saputra</strong><small>Kasir</small></span><ChevronDown size={16} /></button></section></>}
-    {dialog === 'cash' && <CashDialog total={total} onCancel={() => setDialog(null)} onConfirm={completePayment} />}{dialog === 'qris' && <QrisDialog total={total} onCancel={() => setDialog(null)} onConfirm={completePayment} />}{dialog === 'success' && <div className="dialog-backdrop"><section className="dialog success-dialog" role="dialog" aria-modal="true"><div className="success-mark"><Check size={30} /></div><span className="eyebrow">Pembayaran berhasil</span><h2>Transaksi selesai</h2><p>Nomor transaksi <strong>#TRX-260922-0042</strong> telah berhasil disimpan.</p><div className="dialog-total"><span>Total pembayaran</span><strong>{formatRupiah(total)}</strong></div><div className="dialog-actions"><button type="button" className="button-secondary" onClick={newTransaction}>Transaksi baru</button><button type="button" className="button-primary" onClick={newTransaction}><Receipt size={17} /> Lihat struk</button></div></section></div>}
+    {dialog === 'cash' && <CashDialog total={total} onCancel={() => setDialog(null)} onConfirm={completePayment} />}{dialog === 'qris' && <QrisDialog total={total} onCancel={() => setDialog(null)} onConfirm={completePayment} />}{dialog === 'success' && <div className="dialog-backdrop"><section className="dialog success-dialog" role="dialog" aria-modal="true"><div className="success-mark"><Check size={30} /></div><span className="eyebrow">Pembayaran berhasil</span><h2>Transaksi selesai</h2><p>Nomor transaksi <strong>#{completedSaleId.slice(0, 8).toUpperCase()}</strong> telah berhasil disimpan.</p><div className="dialog-total"><span>Total pembayaran</span><strong>{formatRupiah(total)}</strong></div><div className="dialog-actions"><button type="button" className="button-secondary" onClick={newTransaction}>Transaksi baru</button><button type="button" className="button-primary" onClick={newTransaction}><Receipt size={17} /> Lihat struk</button></div></section></div>}
   </main>
 }

@@ -10,17 +10,20 @@ export async function completeSale(input: { paymentMethod: 'cash' | 'qris'; line
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) throw new Error('Unauthorized')
   if (!input.lines.length || !['cash', 'qris'].includes(input.paymentMethod)) throw new Error('Invalid checkout')
-  if (input.lines.some((line) => !Number.isInteger(line.quantity) || line.quantity < 1 || line.quantity > 999)) throw new Error('Invalid quantity')
+  if (input.lines.some((line) => !line.productId || !Number.isInteger(line.quantity) || line.quantity < 1 || line.quantity > 999)) throw new Error('Invalid quantity')
 
   return db.transaction(async (tx) => {
-    const ids = input.lines.map((line) => line.productId)
+    const quantities = new Map<string, number>()
+    for (const line of input.lines) quantities.set(line.productId, (quantities.get(line.productId) ?? 0) + line.quantity)
+    const ids = [...quantities.keys()]
     const rows = await tx.select().from(product).where(inArray(product.id, ids))
     if (rows.length !== ids.length) throw new Error('Product unavailable')
 
-    const items = input.lines.map((line) => {
-      const row = rows.find((item) => item.id === line.productId)
-      if (!row || row.status === 'unavailable' || row.status === 'expired' || row.availableStock < line.quantity) throw new Error('Stock changed')
-      return { row, quantity: line.quantity, lineTotal: row.price * line.quantity }
+    const items = ids.map((productId) => {
+      const row = rows.find((item) => item.id === productId)
+      const quantity = quantities.get(productId) ?? 0
+      if (!row || row.status === 'unavailable' || row.status === 'expired' || row.availableStock < quantity) throw new Error('Stock changed')
+      return { row, quantity, lineTotal: row.price * quantity }
     })
     const total = items.reduce((sum, item) => sum + item.lineTotal, 0)
     const saleId = crypto.randomUUID()
